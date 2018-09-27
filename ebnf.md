@@ -1,0 +1,35 @@
+Program ::= <Graph>*
+
+Graph ::= "graph" <LBRACE> <GraphDecl> <RBRACE>
+
+GraphDecl ::= <NodeList> <RelationList>
+
+NodeList ::= "nodes" <COLON> <LBRACK> (<NodeDecl> <COMMA>)*(<NodeDecl> <COMMA>?)? <RBRACK>
+NodeDecl ::= <NodeShortDecl> 
+         |   <NodeLongDecl>
+NodeShortDecl ::= <id>
+NodeLongDecl ::= <LBRACE> ???TODO: make order not matter for value, label, id??? <RBRACE>
+
+RelationList ::= "relations" <COLON> <LBRACK> (<RelationDecl> <COMMA>)*(<RelationDecl> <COMMA>?)? <RBRACK>
+RelationDecl ::= <LPAREN> <GraphModifier> <COMMA> (<id> <COMMA>)*(<id> <COMMA>?)? <RPAREN>
+
+GraphModifier ::= "->"
+              |   "<-"
+              |   "start"
+              |   "end"
+              |   "<->"
+
+id ::= ^(<GraphModifier>|"nodes"|"value"|"label"|"id"|"graph")[A-Za-z]+[A-Za-z0-9]* # any alphanumeric starting with alpha excluding graph modifiers
+
+LBRACE ::= "{"
+RBRACE ::= "}"
+LBRACK ::= "["
+RBRACK ::= "]"
+LPAREN ::= "("
+RPAREN ::= ")"
+COMMA ::= ","
+COLON ::= ":"
+
+-----
+Notes:
+The (... <comma>)*(... <comma>?)? form allows for any number of that object, separated by commas, with the final comma optional
