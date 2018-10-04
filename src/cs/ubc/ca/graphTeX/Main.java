@@ -1,4 +1,4 @@
-package com.company;
+package cs.ubc.ca.graphTeX;
 
 public class Main {
 

@@ -1,4 +1,4 @@
-package com.company.tokenize;
+package cs.ubc.ca.graphTeX.tokenize;
 /*
 Code taken from Elisa Baniassad's CPSC 410 @ UBC starter files in-class on 2018-10-2
  */
