@@ -3,8 +3,13 @@ package cs.ubc.ca.graphTeX.ast;
 import cs.ubc.ca.graphTeX.visitor.Visitor;
 
 public class BidirectionalEdge extends Relation {
-    String firstNode;
-    String secondNode;
+    private String firstNode;
+    private String secondNode;
+
+    public BidirectionalEdge(String firstNode, String secondNode) {
+        this.firstNode = firstNode;
+        this.secondNode = secondNode;
+    }
 
 
     @Override

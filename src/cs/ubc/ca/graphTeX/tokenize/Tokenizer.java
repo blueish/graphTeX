@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Tokenizer {
+
+
     private static String program;
     private static List<String> literals;
     private String[] tokens;
@@ -39,10 +41,10 @@ public class Tokenizer {
             tokenizedProgram = tokenizedProgram.replace(s,"_"+s+"_");
             System.out.println(tokenizedProgram);
         }
-        tokenizedProgram = tokenizedProgram.replaceAll("__","_");
-        tokenizedProgram = tokenizedProgram.replaceAll(" ","");
+//        tokenizedProgram = tokenizedProgram.replaceAll("__","_");
+        tokenizedProgram = tokenizedProgram.replaceAll("[ ]+","");
         System.out.println(tokenizedProgram);
-        String [] temparray=tokenizedProgram.split("_");
+        String [] temparray=tokenizedProgram.split("[_]+");
         tokens = new String[temparray.length-1];
 
         System.arraycopy(temparray,1,tokens,0,temparray.length-1);
@@ -84,6 +86,7 @@ public class Tokenizer {
             System.out.println("FAILED!!!!");
             System.exit(0);
         }
+        System.out.println("matched: "+s+"  to  "+regexp);
         return s;
     }
 
@@ -100,5 +103,4 @@ public class Tokenizer {
     public static Tokenizer getTokenizer(){
         return theTokenizer;
     }
-
 }

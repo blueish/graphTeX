@@ -1,0 +1,9 @@
+graph {
+    nodes [
+        *A,
+        *B,
+    ]
+    relations [
+        (->, A, B),
+    ]
+}
