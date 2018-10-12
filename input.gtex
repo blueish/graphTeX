@@ -2,8 +2,11 @@ graph {
     nodes [
         *A,
         *B,
+        { value: 42, id: c, label: "hi!" },
     ]
     relations [
         (->, A, B),
+        (--, A, B),
+        (<-, A, B),
     ]
 }

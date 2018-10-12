@@ -7,12 +7,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 
 public class Tokenizer {
-
-
     private static String program;
     private static List<String> literals;
     private String[] tokens;
@@ -34,21 +31,16 @@ public class Tokenizer {
         String tokenizedProgram = program;
         tokenizedProgram = tokenizedProgram.replace("\n","");
         tokenizedProgram = tokenizedProgram.replaceAll("([0-9]+)","_$1_");
-        System.out.println(program);
 
         for (String s : literals){
-//            tokenizedProgram = tokenizedProgram.replaceAll(s,"_"+s+"_");
             tokenizedProgram = tokenizedProgram.replace(s,"_"+s+"_");
-            System.out.println(tokenizedProgram);
         }
-//        tokenizedProgram = tokenizedProgram.replaceAll("__","_");
+
         tokenizedProgram = tokenizedProgram.replaceAll("[ ]+","");
-        System.out.println(tokenizedProgram);
         String [] temparray=tokenizedProgram.split("[_]+");
         tokens = new String[temparray.length-1];
 
         System.arraycopy(temparray,1,tokens,0,temparray.length-1);
-        System.out.println(Arrays.asList(tokens));
     }
 
     private String checkNext(){
@@ -75,7 +67,6 @@ public class Tokenizer {
 
     public boolean checkToken(String regexp){
         String s = checkNext();
-        System.out.println("comparing: |"+s+"|  to  |"+regexp+"|");
         return (s.matches(regexp));
     }
 
@@ -83,10 +74,8 @@ public class Tokenizer {
     public String getAndCheckNext(String regexp){
         String s = getNext();
         if (!s.matches(regexp)) {
-            System.out.println("FAILED!!!!");
-            System.exit(0);
+            throw new RuntimeException(String.format("Failed to match regexp %s to string %s", regexp, s));
         }
-        System.out.println("matched: "+s+"  to  "+regexp);
         return s;
     }
 

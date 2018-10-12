@@ -4,7 +4,7 @@ import cs.ubc.ca.graphTeX.visitor.Visitor;
 
 // Represents an start state for a Finite State Automata
 public class FSAStartModifier extends Relation {
-    private String node;
+    public String node;
 
     public FSAStartModifier(String node) {
         this.node = node;

@@ -12,51 +12,71 @@ public class Parser {
 
     public AST parse() {
         Graph graph = new Graph();
+
         tokenizer.getAndCheckNext("graph");
-        tokenizer.getAndCheckNext("{");
-        while (!tokenizer.checkToken(("}"))) {
+        tokenizer.getAndCheckNext("\\{");
+
+        while (!tokenizer.checkToken(("\\}"))) {
             // assume nodes come before relations, so consume the node definitions
             tokenizer.getAndCheckNext("nodes");
-            tokenizer.getAndCheckNext(":");
-            tokenizer.getAndCheckNext("[");
-            while (!tokenizer.checkToken("]")) {
+            tokenizer.getAndCheckNext("\\[");
+
+            while (!tokenizer.checkToken("\\]")) {
                 Node newNode = new Node();
-                // todo: parse nodes
-                graph.nodes.add(newNode);
+
+                // TODO: parse nodes
+                System.out.println("skipping a token while in todo state");
+                System.out.println(tokenizer.getNext());
+
+//                graph.nodes.add(newNode);
             }
-            tokenizer.getAndCheckNext("]");
+
+            tokenizer.getAndCheckNext("\\]");
 
             // now parse all relations
             tokenizer.getAndCheckNext("relations");
-            tokenizer.getAndCheckNext(":");
-            tokenizer.getAndCheckNext("[");
-            while (!tokenizer.checkToken("]")) {
+            tokenizer.getAndCheckNext("\\[");
+            while (!tokenizer.checkToken("\\]")) {
                 Relation newRelation;
 
                 // All our relations are defined of the form (<op>, <param>*), so consume the beginning
-                tokenizer.getAndCheckNext("(");
+                tokenizer.getAndCheckNext("\\(");
                 String op = tokenizer.getNext();
+                tokenizer.getAndCheckNext(",");
                 switch (op) {
                     case "->":
-                        newRelation = new DirectedEdge(tokenizer.getNext(), tokenizer.getNext());
+                        String fromNode = tokenizer.getNext();
+                        tokenizer.getAndCheckNext(",");
+                        String toNode = tokenizer.getNext();
+                        newRelation = new DirectedEdge(fromNode, toNode);
                         break;
                     case "<-":
                         // Get the next two tokens and swap them (just desurgaring the <- to a ->
-                        String toNode = tokenizer.getNext();
-                        String fromNode = tokenizer.getNext();
-                        newRelation = new DirectedEdge(toNode, fromNode);
+                        toNode = tokenizer.getNext();
+                        tokenizer.getAndCheckNext(",");
+                        fromNode = tokenizer.getNext();
+                        newRelation = new DirectedEdge(fromNode, toNode);
                         break;
-                    case "<->":
-                        newRelation = new BidirectionalEdge(tokenizer.getNext(), tokenizer.getNext());
+                    case "--":
+                        String nodeA = tokenizer.getNext();
+                        tokenizer.getAndCheckNext(",");
+                        String nodeB = tokenizer.getNext();
+                        newRelation = new BidirectionalEdge(nodeA, nodeB);
                         break;
+                    // TODO: create start and end parsing
                     default:
                         throw new RuntimeException(String.format("Invalid relation operation: %s ", op));
                 }
-                tokenizer.getAndCheckNext(")");
+                tokenizer.getAndCheckNext("\\)");
+
+                // pass through optional trailing comma
+                if (tokenizer.checkToken(",")) {
+                    tokenizer.getNext();
+                }
 
                 graph.relations.add(newRelation);
             }
-            tokenizer.getAndCheckNext("]");
+            tokenizer.getAndCheckNext("\\]");
         }
         return graph;
     }
