@@ -15,9 +15,9 @@ RelationDecl ::= <LPAREN> <GraphModifier> <COMMA> (<id> <COMMA>)*(<id> <COMMA>?)
 
 GraphModifier ::= "->"
               |   "<-"
+              |   "--"
               |   "start"
               |   "end"
-              |   "<->"
 
 id ::= ^(<GraphModifier>|"nodes"|"value"|"label"|"id"|"graph")[A-Za-z]+[A-Za-z0-9]* # any alphanumeric starting with alpha excluding graph modifiers
 
