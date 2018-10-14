@@ -7,8 +7,8 @@ GraphDecl ::= <NodeList> <RelationList>
 NodeList ::= "nodes" <COLON> <LBRACK> (<NodeDecl> <COMMA>)*(<NodeDecl> <COMMA>?)? <RBRACK>
 NodeDecl ::= <NodeShortDecl> 
          |   <NodeLongDecl>
-NodeShortDecl ::= <id>
-NodeLongDecl ::= <LBRACE> ???TODO: make order not matter for value, label, id??? <RBRACE>
+NodeShortDecl ::= "*" <id>
+NodeLongDecl ::= <LBRACE> "id" <COLON> <string> <COMMA> "val" <COLON> <string> (<COMMA> "label" <COLON> <string>)? <RBRACE>
 
 RelationList ::= "relations" <COLON> <LBRACK> (<RelationDecl> <COMMA>)*(<RelationDecl> <COMMA>?)? <RBRACK>
 RelationDecl ::= <LPAREN> <GraphModifier> <COMMA> (<id> <COMMA>)*(<id> <COMMA>?)? <RPAREN>
