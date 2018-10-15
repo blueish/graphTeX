@@ -94,4 +94,36 @@ public class EvaluateVisitor implements Visitor<String> {
     public String visit(UndirectedEdge n) {
         return n.firstNode.accept(this) + " -- " + n.secondNode.accept(this);
     }
+
+    @Override
+    public String visit(Tree n){
+        return visit(n.rootNode);
+    }
+
+    @Override
+    public String visit(TreeNode n){
+        StringBuilder val = new StringBuilder("\\documentclass{article}\n" +
+                "\\usepackage[margin=1in]{geometry}\n" +
+                "\\usepackage[linguistics]{forest}\n" +
+                "\n" +
+                "\\begin{document} \n" +
+                "\\begin{forest}for tree={inner sep=0pt,outer sep=0pt}\n");
+
+        val.append("[");
+        visitTreeNodeChildren(n, val);
+        val.append("]");
+
+        return val.toString();
+    }
+
+    public void visitTreeNodeChildren(TreeNode n, StringBuilder val){
+        val.append(n.displayValue);
+
+        for (TreeNode child : n.children){
+            val.append("\n");
+            val.append("    [");
+            visitTreeNodeChildren(child, val);
+        }
+        val.append("]");
+    }
 }

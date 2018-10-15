@@ -3,7 +3,9 @@ package cs.ubc.ca.graphTeX.visitor;
 import cs.ubc.ca.graphTeX.ast.*;
 import cs.ubc.ca.graphTeX.tokenize.Tokenizer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Parser {
@@ -15,6 +17,7 @@ public class Parser {
     private final String LEFT_PAREN = "\\(";
     private final String RIGHT_PAREN = "\\)";
     private final String STAR = "\\*";
+    private final String COMMA = ",";
 
 
     private Map<String, Node> nodeMap;
@@ -28,6 +31,28 @@ public class Parser {
     }
 
     public AST parse() {
+        if (tokenizer.checkToken("graph")) {
+            return parseGraph();
+        }
+        else {
+            return parseTree();
+        }
+    }
+
+    public AST parseTree() {
+        Tree tree = new Tree();
+        tokenizer.getAndCheckNext("tree");
+        tokenizer.getAndCheckNext(LEFT_BRACKET);
+
+        while (!tokenizer.checkToken((RIGHT_BRACKET))) {
+            parseTreeNodes();
+        }
+
+        tokenizer.getAndCheckNext(RIGHT_BRACKET);
+        return tree;
+    }
+
+    public AST parseGraph() {
         Graph graph = new Graph();
 
         tokenizer.getAndCheckNext("graph");
@@ -100,6 +125,29 @@ public class Parser {
             graph.relations.add(newRelation);
         }
         tokenizer.getAndCheckNext(RIGHT_BRACE);
+    }
+
+    public TreeNode parseTreeNodes(){
+        TreeNode parentTreeNode;
+        String treeNodeValue = tokenizer.getNext();
+        List<TreeNode> treeNodeChildren = new ArrayList<>();
+
+        parentTreeNode = new TreeNode(treeNodeValue);
+
+        parentTreeNode.displayValue = treeNodeValue;
+
+        tokenizer.getAndCheckNext(LEFT_PAREN);
+
+        while(!tokenizer.checkToken(RIGHT_PAREN) && tokenizer.checkToken(COMMA)) {
+            // recursively add child tree nodes
+            treeNodeChildren.add(parseTreeNodes());
+        }
+
+        if (!treeNodeChildren.isEmpty()){
+            parentTreeNode.children = treeNodeChildren;
+        }
+
+        return parentTreeNode;
     }
 
     private void parseNodes(Graph graph) {

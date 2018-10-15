@@ -10,4 +10,6 @@ public interface Visitor<R> {
     public R visit(FSAEndModifier n);
     public R visit(BidirectionalEdge n);
     public R visit(UndirectedEdge n);
+    public R visit(Tree n);
+    public R visit(TreeNode n);
 }
