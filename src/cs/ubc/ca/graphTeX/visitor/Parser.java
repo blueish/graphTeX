@@ -73,6 +73,14 @@ public class Parser {
                     nodeB = tokenizer.getNext();
                     newRelation = new BidirectionalEdge(nodeA, nodeB);
                     break;
+                case "start":
+                    String node = tokenizer.getNext();
+                    newRelation = new FSAStartModifier(node);
+                    break;
+                case "end":
+                    node = tokenizer.getNext();
+                    newRelation = new FSAEndModifier(node);
+                    break;
                 default:
                     throw new RuntimeException(String.format("Invalid relation operation: %s ", op));
             }

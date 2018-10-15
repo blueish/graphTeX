@@ -3,7 +3,7 @@ package cs.ubc.ca.graphTeX.ast;
 import cs.ubc.ca.graphTeX.visitor.Visitor;
 
 public class FSAEndModifier extends Relation {
-    private String node;
+    public String node;
 
     public FSAEndModifier(String node) {
         this.node = node;

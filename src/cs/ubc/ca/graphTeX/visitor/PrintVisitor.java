@@ -54,7 +54,9 @@ public class PrintVisitor implements Visitor<Void> {
     @Override
     public Void visit(FSAStartModifier n) {
         printer.println("StartMod {");
-        printer.println(n);
+        printer.indent();
+        printer.println(n.node);
+        printer.outdent();
         printer.println("}");
         return null;
     }
@@ -73,7 +75,9 @@ public class PrintVisitor implements Visitor<Void> {
     @Override
     public Void visit(FSAEndModifier n) {
         printer.println("EndMod {");
-        printer.println(n);
+        printer.indent();
+        printer.println(n.node);
+        printer.outdent();
         printer.println("}");
         return null;
     }
