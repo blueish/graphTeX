@@ -3,6 +3,7 @@ package cs.ubc.ca.graphTeX;
 import cs.ubc.ca.graphTeX.ast.AST;
 import cs.ubc.ca.graphTeX.tokenize.Tokenizer;
 import cs.ubc.ca.graphTeX.util.IndentingPrinter;
+import cs.ubc.ca.graphTeX.visitor.EvaluateVisitor;
 import cs.ubc.ca.graphTeX.visitor.Parser;
 import cs.ubc.ca.graphTeX.visitor.PrintVisitor;
 
@@ -18,9 +19,12 @@ public class Main {
         Parser parser = new Parser();
         AST ast = parser.parse();
 
-        System.out.println("Parsed successfully");
+        EvaluateVisitor v = new EvaluateVisitor();
+        System.out.println(ast.accept(v));
+
+      /*  System.out.println("Parsed successfully");
 
         PrintVisitor indentingPrinter = new PrintVisitor(new IndentingPrinter(System.out));
-        ast.accept(indentingPrinter);
+        ast.accept(indentingPrinter);*/
     }
 }

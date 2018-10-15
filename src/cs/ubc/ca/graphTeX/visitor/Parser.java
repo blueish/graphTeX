@@ -3,6 +3,9 @@ package cs.ubc.ca.graphTeX.visitor;
 import cs.ubc.ca.graphTeX.ast.*;
 import cs.ubc.ca.graphTeX.tokenize.Tokenizer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Parser {
     // Static helper fields for tokenizer matching
     private final String LEFT_BRACKET = "\\{";
@@ -14,11 +17,14 @@ public class Parser {
     private final String STAR = "\\*";
 
 
+    private Map<String, Node> nodeMap;
+
     private Tokenizer tokenizer;
 
 
     public Parser() {
         this.tokenizer = Tokenizer.getTokenizer();
+        this.nodeMap = new HashMap<>();
     }
 
     public AST parse() {
@@ -52,34 +58,34 @@ public class Parser {
                     String fromNode = tokenizer.getNext();
                     tokenizer.getAndCheckNext(",");
                     String toNode = tokenizer.getNext();
-                    newRelation = new DirectedEdge(fromNode, toNode);
+                    newRelation = new DirectedEdge(nodeMap.get(fromNode), nodeMap.get(toNode));
                     break;
                 case "<-":
                     // Get the next two tokens and swap them (just desurgaring the <- to a ->
                     toNode = tokenizer.getNext();
                     tokenizer.getAndCheckNext(",");
                     fromNode = tokenizer.getNext();
-                    newRelation = new DirectedEdge(fromNode, toNode);
+                    newRelation = new DirectedEdge(nodeMap.get(fromNode), nodeMap.get(toNode));
                     break;
                 case "--":
                     String nodeA = tokenizer.getNext();
                     tokenizer.getAndCheckNext(",");
                     String nodeB = tokenizer.getNext();
-                    newRelation = new UndirectedEdge(nodeA, nodeB);
+                    newRelation = new UndirectedEdge(nodeMap.get(nodeA), nodeMap.get(nodeB));
                     break;
                 case "<>":
                     nodeA = tokenizer.getNext();
                     tokenizer.getAndCheckNext(",");
                     nodeB = tokenizer.getNext();
-                    newRelation = new BidirectionalEdge(nodeA, nodeB);
+                    newRelation = new BidirectionalEdge(nodeMap.get(nodeA), nodeMap.get(nodeB));
                     break;
                 case "start":
                     String node = tokenizer.getNext();
-                    newRelation = new FSAStartModifier(node);
+                    newRelation = new FSAStartModifier(nodeMap.get(node));
                     break;
                 case "end":
                     node = tokenizer.getNext();
-                    newRelation = new FSAEndModifier(node);
+                    newRelation = new FSAEndModifier(nodeMap.get(node));
                     break;
                 default:
                     throw new RuntimeException(String.format("Invalid relation operation: %s ", op));
@@ -140,6 +146,7 @@ public class Parser {
                 tokenizer.getAndCheckNext(RIGHT_BRACKET);
             }
 
+            nodeMap.put(newNode.refId, newNode);
             graph.nodes.add(newNode);
         }
 

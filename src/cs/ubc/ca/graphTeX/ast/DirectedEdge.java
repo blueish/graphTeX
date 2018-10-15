@@ -3,10 +3,10 @@ package cs.ubc.ca.graphTeX.ast;
 import cs.ubc.ca.graphTeX.visitor.Visitor;
 
 public class DirectedEdge extends Relation {
-    public String fromNode;
-    public String toNode;
+    public Node fromNode;
+    public Node toNode;
 
-    public DirectedEdge(String fromNode, String toNode) {
+    public DirectedEdge(Node fromNode, Node toNode) {
         this.fromNode = fromNode;
         this.toNode = toNode;
     }

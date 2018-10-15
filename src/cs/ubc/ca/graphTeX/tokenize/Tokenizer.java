@@ -20,6 +20,8 @@ public class Tokenizer {
         literals = literalsList;
         try {
             program = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
+            //Hack to fix linux vs windows new lines
+            program = program.replaceAll("\r", "\n");
         } catch (IOException e) {
             System.out.println("Didn't find file");
             System.exit(0);
@@ -63,7 +65,6 @@ public class Tokenizer {
             token="NULLTOKEN";
         return token;
     }
-
 
     public boolean checkToken(String regexp){
         String s = checkNext();
