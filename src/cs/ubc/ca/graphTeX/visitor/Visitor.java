@@ -9,4 +9,5 @@ public interface Visitor<R> {
     public R visit(DirectedEdge n);
     public R visit(FSAEndModifier n);
     public R visit(BidirectionalEdge n);
+    public R visit(UndirectedEdge n);
 }
