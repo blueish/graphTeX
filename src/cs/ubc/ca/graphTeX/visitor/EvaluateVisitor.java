@@ -113,6 +113,9 @@ public class EvaluateVisitor implements Visitor<String> {
         visitTreeNodeChildren(n, val);
         val.append("]");
 
+        val.append("\\end{forest}\n");
+        val.append("\\end{document}\n");
+
         return val.toString();
     }
 
