@@ -39,14 +39,24 @@ public class PrintVisitor implements Visitor<Void> {
 
     @Override
     public Void visit(Node n) {
-        printer.println("Node { TODO }");
+        printer.println("Node {");
+        printer.indent();
+        printer.println("display: " + n.displayValue);
+        printer.println("id:      " + n.refId);
+        if (n.optLabel != null) {
+            printer.println("label:   " + n.optLabel);
+        }
+        printer.outdent();
+        printer.println("}");
         return null;
     }
 
     @Override
     public Void visit(FSAStartModifier n) {
         printer.println("StartMod {");
-        printer.println(n);
+        printer.indent();
+        printer.println(n.node);
+        printer.outdent();
         printer.println("}");
         return null;
     }
@@ -65,7 +75,9 @@ public class PrintVisitor implements Visitor<Void> {
     @Override
     public Void visit(FSAEndModifier n) {
         printer.println("EndMod {");
-        printer.println(n);
+        printer.indent();
+        printer.println(n.node);
+        printer.outdent();
         printer.println("}");
         return null;
     }
@@ -73,6 +85,17 @@ public class PrintVisitor implements Visitor<Void> {
     @Override
     public Void visit(BidirectionalEdge n) {
         printer.println("BiDirectionalEdge {");
+        printer.indent();
+        printer.println("first:  " + n.firstNode);
+        printer.println("second: " + n.secondNode);
+        printer.outdent();
+        printer.println("}");
+        return null;
+    }
+
+    @Override
+    public Void visit(UndirectedEdge n) {
+        printer.println("UndirectedEdge {");
         printer.indent();
         printer.println("first:  " + n.firstNode);
         printer.println("second: " + n.secondNode);
