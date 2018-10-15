@@ -3,9 +3,9 @@ package cs.ubc.ca.graphTeX.ast;
 import cs.ubc.ca.graphTeX.visitor.Visitor;
 
 public class FSAEndModifier extends Relation {
-    public String node;
+    public Node node;
 
-    public FSAEndModifier(String node) {
+    public FSAEndModifier(Node node) {
         this.node = node;
     }
 

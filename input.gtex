@@ -4,13 +4,13 @@ graph {
         *B,
         { id: c, value: 42, label: "hi!" }
     ]
-
     relations [
+        (start, A),
         (->, A, B),
         (<-, A, B),
         (<>, c, B),
         (--, c, A),
-        (start, A),
-        (end, c),
+        (end, B),
+        (end, c)
     ]
 }

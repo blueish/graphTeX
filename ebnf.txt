@@ -16,6 +16,7 @@ RelationDecl ::= <LPAREN> <GraphModifier> <COMMA> (<id> <COMMA>)*(<id> <COMMA>?)
 GraphModifier ::= "->"
               |   "<-"
               |   "--"
+              |   "<>"
               |   "start"
               |   "end"
 

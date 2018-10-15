@@ -3,10 +3,10 @@ package cs.ubc.ca.graphTeX.ast;
 import cs.ubc.ca.graphTeX.visitor.Visitor;
 
 public class UndirectedEdge extends Relation {
-    public String firstNode;
-    public String secondNode;
+    public Node firstNode;
+    public Node secondNode;
 
-    public UndirectedEdge(String firstNode, String secondNode) {
+    public UndirectedEdge(Node firstNode, Node secondNode) {
         this.firstNode = firstNode;
         this.secondNode = secondNode;
     }
