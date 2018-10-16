@@ -122,7 +122,7 @@ public class EvaluateVisitor implements Visitor<String> {
                 "\\begin{forest}for tree={inner sep=0pt,outer sep=0pt}\n");
 
         val.append("[");
-        visitTreeNodeChildren(n, val);
+        visitTreeNodeChildren(n, val, 1);
         val.append("]");
         val.append("\n");
 
@@ -132,14 +132,17 @@ public class EvaluateVisitor implements Visitor<String> {
         return val.toString();
     }
 
-    public void visitTreeNodeChildren(TreeNode n, StringBuilder val){
+    public void visitTreeNodeChildren(TreeNode n, StringBuilder val, int depth){
         val.append(n.displayValue);
 
         if (n.children != null){
             for (TreeNode child : n.children){
                 val.append("\n");
+                for (int i = 0; i < depth; i++){
+                    val.append("    ");
+                }
                 val.append("[");
-                visitTreeNodeChildren(child, val);
+                visitTreeNodeChildren(child, val, depth + 1);
                 val.append("]");
             }
         }
