@@ -45,7 +45,7 @@ public class Parser {
         tokenizer.getAndCheckNext(LEFT_BRACKET);
 
         while (!tokenizer.checkToken((RIGHT_BRACKET))) {
-            parseTreeNodes();
+            parseTreeNodes(tree);
         }
 
         tokenizer.getAndCheckNext(RIGHT_BRACKET);
@@ -127,25 +127,31 @@ public class Parser {
         tokenizer.getAndCheckNext(RIGHT_BRACE);
     }
 
-    public TreeNode parseTreeNodes(){
+    public TreeNode parseTreeNodes(Tree tree){
         TreeNode parentTreeNode;
         String treeNodeValue = tokenizer.getNext();
         List<TreeNode> treeNodeChildren = new ArrayList<>();
 
         parentTreeNode = new TreeNode(treeNodeValue);
+        if (tree.rootNode == null) tree.rootNode = parentTreeNode;
 
         parentTreeNode.displayValue = treeNodeValue;
 
         tokenizer.getAndCheckNext(LEFT_PAREN);
 
-        while(!tokenizer.checkToken(RIGHT_PAREN) && tokenizer.checkToken(COMMA)) {
+        while(!tokenizer.checkToken(RIGHT_PAREN)) {
             // recursively add child tree nodes
-            treeNodeChildren.add(parseTreeNodes());
+            treeNodeChildren.add(parseTreeNodes(tree));
+            if (tokenizer.checkToken(COMMA)) {
+                tokenizer.getNext();
+            }
         }
 
         if (!treeNodeChildren.isEmpty()){
             parentTreeNode.children = treeNodeChildren;
         }
+
+        tokenizer.getAndCheckNext(RIGHT_PAREN);
 
         return parentTreeNode;
     }

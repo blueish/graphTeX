@@ -112,6 +112,7 @@ public class EvaluateVisitor implements Visitor<String> {
         val.append("[");
         visitTreeNodeChildren(n, val);
         val.append("]");
+        val.append("\n");
 
         val.append("\\end{forest}\n");
         val.append("\\end{document}\n");
@@ -122,11 +123,13 @@ public class EvaluateVisitor implements Visitor<String> {
     public void visitTreeNodeChildren(TreeNode n, StringBuilder val){
         val.append(n.displayValue);
 
-        for (TreeNode child : n.children){
-            val.append("\n");
-            val.append("    [");
-            visitTreeNodeChildren(child, val);
+        if (n.children != null){
+            for (TreeNode child : n.children){
+                val.append("\n");
+                val.append("[");
+                visitTreeNodeChildren(child, val);
+                val.append("]");
+            }
         }
-        val.append("]");
     }
 }
