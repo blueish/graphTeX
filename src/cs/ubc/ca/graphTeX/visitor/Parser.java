@@ -79,7 +79,7 @@ public class Parser {
         tokenizer.getAndCheckNext(LEFT_BRACE);
         while (!tokenizer.checkToken(RIGHT_BRACE)) {
             Relation newRelation;
-
+            String edgeValue;
             // All our relations are defined of the form (<op>, <param>*), so consume the beginning
             tokenizer.getAndCheckNext(LEFT_PAREN);
             String op = tokenizer.getNext();
@@ -90,6 +90,11 @@ public class Parser {
                     tokenizer.getAndCheckNext(",");
                     String toNode = tokenizer.getNext();
                     newRelation = new DirectedEdge(nodeMap.get(fromNode), nodeMap.get(toNode));
+                    if (tokenizer.checkToken(COMMA)){
+                        tokenizer.getNext();
+                        edgeValue = tokenizer.getNext();
+                        newRelation.edgeLabel = edgeValue;
+                    }
                     break;
                 case "<-":
                     // Get the next two tokens and swap them (just desurgaring the <- to a ->
@@ -97,18 +102,33 @@ public class Parser {
                     tokenizer.getAndCheckNext(",");
                     fromNode = tokenizer.getNext();
                     newRelation = new DirectedEdge(nodeMap.get(fromNode), nodeMap.get(toNode));
+                    if (tokenizer.checkToken(COMMA)){
+                        tokenizer.getNext();
+                        edgeValue = tokenizer.getNext();
+                        newRelation.edgeLabel = edgeValue;
+                    }
                     break;
                 case "--":
                     String nodeA = tokenizer.getNext();
                     tokenizer.getAndCheckNext(",");
                     String nodeB = tokenizer.getNext();
                     newRelation = new UndirectedEdge(nodeMap.get(nodeA), nodeMap.get(nodeB));
+                    if (tokenizer.checkToken(COMMA)){
+                        tokenizer.getNext();
+                        edgeValue = tokenizer.getNext();
+                        newRelation.edgeLabel = edgeValue;
+                    }
                     break;
                 case "<>":
                     nodeA = tokenizer.getNext();
                     tokenizer.getAndCheckNext(",");
                     nodeB = tokenizer.getNext();
                     newRelation = new BidirectionalEdge(nodeMap.get(nodeA), nodeMap.get(nodeB));
+                    if (tokenizer.checkToken(COMMA)){
+                        tokenizer.getNext();
+                        edgeValue = tokenizer.getNext();
+                        newRelation.edgeLabel = edgeValue;
+                    }
                     break;
                 case "start":
                     String node = tokenizer.getNext();

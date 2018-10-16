@@ -11,7 +11,7 @@ NodeShortDecl ::= "*" <id>
 NodeLongDecl ::= <LBRACE> "id" <COLON> <string> <COMMA> "val" <COLON> <string> (<COMMA> "label" <COLON> <string>)? <RBRACE>
 
 RelationList ::= "relations" <COLON> <LBRACK> (<RelationDecl> <COMMA>)*(<RelationDecl> <COMMA>?)? <RBRACK>
-RelationDecl ::= <LPAREN> <GraphModifier> <COMMA> (<id> <COMMA>)*(<id> <COMMA>?)? <RPAREN>
+RelationDecl ::= <LPAREN> <GraphModifier> <COMMA> (<id> <COMMA>)*(<id> <COMMA>?)? (<COMMA> <string>)?k <RPAREN>
 
 LoopDecl ::= "loop" <LBRACK> "make all nodes with value" <string> "colour" <string> <RBRACK>
 

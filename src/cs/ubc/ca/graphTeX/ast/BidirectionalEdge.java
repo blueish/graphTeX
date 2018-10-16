@@ -6,6 +6,7 @@ public class BidirectionalEdge extends Relation {
     public Node firstNode;
     public Node secondNode;
 
+
     public BidirectionalEdge(Node firstNode, Node secondNode) {
         this.firstNode = firstNode;
         this.secondNode = secondNode;

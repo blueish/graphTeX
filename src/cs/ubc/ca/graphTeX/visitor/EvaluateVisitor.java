@@ -66,7 +66,7 @@ public class EvaluateVisitor implements Visitor<String> {
         }
 
         for (String refIds : colouredRefs){
-            val.append("\\draw [thin, draw=white, fill=" + n.colourToMark + ", fill opacity=0.2] (" + refIds + ") circle [radius=3.1mm]; \n");
+            val.append("\\draw [thin, draw=white, fill=" + n.colourToMark + ", fill opacity=0.2] (" + refIds + ") circle [radius=2.6mm]; \n");
         }
 
         val.append("\\end{tikzpicture}\n" + "\\end{document}");
@@ -89,7 +89,11 @@ public class EvaluateVisitor implements Visitor<String> {
 
     @Override
     public String visit(DirectedEdge n) {
-        return n.fromNode.accept(this) + " -> " + n.toNode.accept(this);
+        if (!(n.edgeLabel.equals(""))) {
+            return n.fromNode.accept(this) + " -> [\"" + n.edgeLabel + "\"] "+ n.toNode.accept(this);
+        } else {
+            return n.fromNode.accept(this) + " -> " + n.toNode.accept(this);
+        }
     }
 
     @Override
@@ -99,12 +103,22 @@ public class EvaluateVisitor implements Visitor<String> {
 
     @Override
     public String visit(BidirectionalEdge n) {
-        return n.firstNode.accept(this) + " <-> " + n.secondNode.accept(this);
+        if (!(n.edgeLabel.equals(""))) {
+            return n.firstNode.accept(this) + " <-> [\"" + n.edgeLabel + "\"] " + n.secondNode.accept(this);
+        }
+        else{
+            return n.firstNode.accept(this) + " <-> " + n.secondNode.accept(this);
+        }
     }
 
     @Override
     public String visit(UndirectedEdge n) {
-        return n.firstNode.accept(this) + " -- " + n.secondNode.accept(this);
+        if (!(n.edgeLabel.equals(""))) {
+            return n.firstNode.accept(this) + " -- [\"" + n.edgeLabel + "\"] " + n.secondNode.accept(this);
+        }
+        else{
+            return n.firstNode.accept(this) + " -- " + n.secondNode.accept(this);
+        }
     }
 
     @Override
