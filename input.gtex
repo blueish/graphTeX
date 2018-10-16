@@ -1,8 +1,9 @@
 graph {
     nodes [
         *A,
-        *B,
-        { id: c, value: 42, label: "hi!" }
+        { id: B, value: 42, label: "merp!" },
+        { id: c, value: 42, label: "hi!" },
+        { id: d, value: 4, label: "hi!" }
     ]
     relations [
         (start, A),

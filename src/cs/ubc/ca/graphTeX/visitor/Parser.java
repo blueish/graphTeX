@@ -199,6 +199,10 @@ public class Parser {
 
                 tokenizer.getAndCheckNext(RIGHT_BRACKET);
             }
+            // pass through optional trailing comma
+            if (tokenizer.checkToken(",")) {
+                tokenizer.getNext();
+            }
 
             nodeMap.put(newNode.refId, newNode);
             graph.nodes.add(newNode);
