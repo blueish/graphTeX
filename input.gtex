@@ -11,7 +11,11 @@ graph {
         (<-, A, B),
         (<>, c, B),
         (--, c, A),
+        (--, A, d),
         (end, B),
         (end, c)
+    ]
+    loop [
+    make all nodes with value 42 colour yellow
     ]
 }
