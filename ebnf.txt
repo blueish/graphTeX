@@ -20,6 +20,11 @@ GraphModifier ::= "->"
               |   "start"
               |   "end"
 
+Tree ::= "tree" <LBRACE> <TreeNode> <RBRACE>
+
+TreeNode ::= <value> <LPAREN> (<TreeNode> <COMMA>)* <RPAREN>
+
+
 id ::= ^(<GraphModifier>|"nodes"|"value"|"label"|"id"|"graph")[A-Za-z]+[A-Za-z0-9]* # any alphanumeric starting with alpha excluding graph modifiers
 
 LBRACE ::= "{"
