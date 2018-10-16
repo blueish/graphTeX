@@ -62,7 +62,7 @@ public class EvaluateVisitor implements Visitor<String> {
         for (String refId : endRefs) {
             val.append("\\draw [thin, black] (");
             val.append(refId);
-            val.append(") circle [radius=3mm]; \n");
+            val.append(") circle [radius=2.6mm]; \n");
         }
 
         for (String refIds : colouredRefs){
