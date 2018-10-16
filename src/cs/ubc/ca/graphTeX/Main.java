@@ -13,7 +13,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        List<String> literals = Arrays.asList("graph","nodes","[","]", "->", "<-", "--", "<>", "(", ")", ",", "{", "}", "*", ":", "tree");
+        List<String> literals = Arrays.asList("graph","nodes","[","]", "->", "<-", "--", "<>", "(", ")", ",", "{", "}", "*", ":", "tree", "loop", "makeall", "withvalue", "colour");
         Tokenizer.makeTokenizer("input.gtex",literals);
 
         Parser parser = new Parser();

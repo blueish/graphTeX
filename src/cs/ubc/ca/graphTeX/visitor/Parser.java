@@ -21,6 +21,7 @@ public class Parser {
 
 
     private Map<String, Node> nodeMap;
+    private List<String> nodeVals;
 
     private Tokenizer tokenizer;
 
@@ -28,6 +29,7 @@ public class Parser {
     public Parser() {
         this.tokenizer = Tokenizer.getTokenizer();
         this.nodeMap = new HashMap<>();
+        this.nodeVals = new ArrayList<>();
     }
 
     public AST parse() {
@@ -38,6 +40,7 @@ public class Parser {
             return parseTree();
         }
     }
+
 
     public AST parseTree() {
         Tree tree = new Tree();
@@ -61,6 +64,9 @@ public class Parser {
         while (!tokenizer.checkToken((RIGHT_BRACKET))) {
             parseNodes(graph);
             parseRelations(graph);
+            if (tokenizer.checkToken("loop")) {
+                parseLoop(graph);
+            }
         }
 
         tokenizer.getAndCheckNext(RIGHT_BRACKET);
@@ -155,6 +161,19 @@ public class Parser {
 
         return parentTreeNode;
     }
+    private void parseLoop(Graph graph) {
+        tokenizer.getAndCheckNext("loop");
+        tokenizer.getAndCheckNext(LEFT_BRACE);
+        tokenizer.getAndCheckNext("makeall");
+        tokenizer.getAndCheckNext("nodes");
+        tokenizer.getAndCheckNext("withvalue");
+        graph.valueToMark = tokenizer.getNext();
+        tokenizer.getAndCheckNext("colour");
+        graph.colourToMark = tokenizer.getNext();
+        tokenizer.getAndCheckNext(RIGHT_BRACE);
+
+    }
+
 
     private void parseNodes(Graph graph) {
         // assume nodes come before relations, so consume the node definitions
@@ -199,8 +218,17 @@ public class Parser {
 
                 tokenizer.getAndCheckNext(RIGHT_BRACKET);
             }
+            // pass through optional trailing comma
+            if (tokenizer.checkToken(",")) {
+                tokenizer.getNext();
+            }
 
+            // pass through optional trailing comma
+            if (tokenizer.checkToken(",")) {
+                tokenizer.getNext();
+            }
             nodeMap.put(newNode.refId, newNode);
+            nodeVals.add(newNode.displayValue);
             graph.nodes.add(newNode);
         }
 

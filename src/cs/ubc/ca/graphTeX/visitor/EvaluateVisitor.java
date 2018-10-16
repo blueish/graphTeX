@@ -25,6 +25,7 @@ public class EvaluateVisitor implements Visitor<String> {
         boolean hasStart = !n.relations.isEmpty() && n.relations.get(0) instanceof FSAStartModifier;
 
         Set<String> endRefs = new HashSet<>();
+        Set<String> colouredRefs = new HashSet<>();
         int i = 0;
         for(Relation r : n.relations) {
 
@@ -35,12 +36,19 @@ public class EvaluateVisitor implements Visitor<String> {
                 continue;
             }
 
+
             val.append(r.accept(this));
 
             if (i < n.relations.size() - 1) {
                 val.append(",\n");
             }
             i++;
+        }
+
+        for (Node nodies : n.nodes){
+            if (nodies.displayValue.equals(n.valueToMark)){
+                colouredRefs.add(nodies.refId);
+            }
         }
 
 
@@ -55,6 +63,10 @@ public class EvaluateVisitor implements Visitor<String> {
             val.append("\\draw [thin, black] (");
             val.append(refId);
             val.append(") circle [radius=3mm]; \n");
+        }
+
+        for (String refIds : colouredRefs){
+            val.append("\\draw [thin, draw=white, fill=" + n.colourToMark + ", fill opacity=0.2] (" + refIds + ") circle [radius=3.1mm]; \n");
         }
 
         val.append("\\end{tikzpicture}\n" + "\\end{document}");
