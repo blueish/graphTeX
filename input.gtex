@@ -3,17 +3,22 @@ graph {
         *A,
         { id: B, value: 42, label: "merp!" },
         { id: c, value: 42, label: "hi!" },
-        { id: d, value: 4, label: "hi!" }
+        { id: d, value: 4, label: "hi!" },
+        *0
     ]
     relations [
         (start, A),
+        (->, A, A),
+        (->, 0, A, 12),
+        (->, B, B, 16),
         (->, A, B),
         (<-, A, B),
         (<>, c, B),
         (--, c, A),
         (--, A, d),
         (end, B),
-        (end, c)
+        (end, c),
+        (end, 0)
     ]
     loop [
     make all nodes with value 42 colour yellow

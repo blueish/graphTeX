@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class EvaluateVisitor implements Visitor<String> {
-    private static final String NODE_FORMAT_LABEL = "\"%s\"/%s [label=%s]";
+    private static final String NODE_FORMAT_LABEL = "\"%s\"/%s [label=left:%s]";
     private static final String NODE_FORMAT_NO_LABEL = "\"%s\"/%s";
 
 
@@ -66,7 +66,7 @@ public class EvaluateVisitor implements Visitor<String> {
         }
 
         for (String refIds : colouredRefs){
-            val.append("\\draw [thin, draw=white, fill=" + n.colourToMark + ", fill opacity=0.2] (" + refIds + ") circle [radius=2.6mm]; \n");
+            val.append("\\draw [thin, draw=white, fill=" + n.colourToMark + ", fill opacity=0.2] (" + refIds + ") circle [radius=2.8mm]; \n");
         }
 
         val.append("\\end{tikzpicture}\n" + "\\end{document}");
@@ -89,6 +89,13 @@ public class EvaluateVisitor implements Visitor<String> {
 
     @Override
     public String visit(DirectedEdge n) {
+        if (n.fromNode.refId.equals(n.toNode.refId)){
+            if (!(n.edgeLabel.equals(""))) {
+                return n.fromNode.accept(this) + " -> [loop above, \"" + n.edgeLabel + "\"] "+ n.toNode.accept(this);
+            } else {
+                return n.fromNode.accept(this) + " -> [loop above]" + n.toNode.accept(this);
+            }
+        }
         if (!(n.edgeLabel.equals(""))) {
             return n.fromNode.accept(this) + " -> [\"" + n.edgeLabel + "\"] "+ n.toNode.accept(this);
         } else {
